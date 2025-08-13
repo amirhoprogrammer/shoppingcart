@@ -1,12 +1,22 @@
-function Card() {
+function Card(props) {
   const imgUrl = "./src/image/402588acee067cc258d8c1bed33b65c717a8ea83_1699112037.jpg";
   const option = {};
+  const itemList = props.items;
+  const listItems = itemList.map((item) => (
+    <li key={item.id} className="flex flex-col w-72 m-2 shadow-2xl p-2 rounded-xl">
+      <div className="flex justify-center items-center my-2">
+        <img src={item.src} alt="image" className="size-20 grid place-items-center rounded-2xl" />
+      </div>
+      <h3 className="text-center py-2">{item.name}</h3>
+      <h3 className="text-center py-2">{item.cost} تومان</h3>
+      <button className="rounded-2xl py-2" style={{ backgroundColor: "rgb(148, 29, 2)" }}>
+        Add to Cart
+      </button>
+    </li>
+  ));
   return (
-    <div className="shadow-2xl rounded-2xl flex-col p-2">
-      <img src={imgUrl} alt="image" className="size-20" />
-      <h3>boAt Airdopes 131</h3>
-      <h3>₹ 1,099</h3>
-      <button style={{ backgroundColor: "rgb(148, 29, 2)" }}>Add to Cart</button>
+    <div className="flex flex-wrap justify-center gap-1 p-4">
+      <ol className="flex flex-wrap list-none">{listItems}</ol>
     </div>
   );
 }
