@@ -1,6 +1,7 @@
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartSlice";
 function Card(props) {
-  const imgUrl = "./src/image/402588acee067cc258d8c1bed33b65c717a8ea83_1699112037.jpg";
-  const option = {};
+  const dispatch = useDispatch();
   const itemList = props.items;
   const listItems = itemList.map((item) => (
     <li key={item.id} className="flex flex-col w-72 m-2 shadow-2xl p-2 rounded-xl">
@@ -9,8 +10,12 @@ function Card(props) {
       </div>
       <h3 className="text-center py-2">{item.name}</h3>
       <h3 className="text-center py-2">{item.cost} تومان</h3>
-      <button className="rounded-2xl py-2" style={{ backgroundColor: "rgb(148, 29, 2)" }}>
-        Add to Cart
+      <button
+        className="rounded-2xl py-2"
+        style={{ backgroundColor: "rgb(148, 29, 2)" }}
+        onClick={() => dispatch(useDispatch(addToCart))}
+      >
+        Add to cart
       </button>
     </li>
   ));

@@ -1,13 +1,15 @@
 import "./Header.css";
+import { useSelector } from "react-redux";
 function Header() {
-  const imgURL = "../assets/bag-icon.svg";
+  const cartItems = useSelector((state) => state.cart.items);
+  const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   return (
     <div
       className="flex justify-between width=device-width, initial-scale=1.0 text-amber-50"
       style={{ backgroundColor: "rgb(148, 29, 2)" }}
     >
       <h3 className="p-4">Redux Shopping Cart</h3>
-      <button className="p-4">
+      <button className="p-4 relative">
         <svg
           aria-hidden="true"
           focusable="false"
@@ -25,11 +27,12 @@ function Header() {
             strokeWidth="1.5"
           ></path>
         </svg>
+        {itemCount > 0 && (
+          <span className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+            {itemCount}
+          </span>
+        )}
       </button>
-      {/*<div title="Cart" class="cart_icon">
-        <img src="/images/bag-icon.svg" alt="bag-icon" />
-        <span class="badge">0</span>
-  </div>*/}
     </div>
   );
 }
