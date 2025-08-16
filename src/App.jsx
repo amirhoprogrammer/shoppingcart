@@ -5,7 +5,6 @@ import Home from "./Page/Home";
 import Cards from "./Page/Cards";
 import Footer from "./feathers/footer";
 import Header from "./feathers/Header";
-import Cart from "./Page/Cart";
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
       <Route path="/cards" element={<Cards />} />
       <Route path="/Header" element={<Header />} />
       <Route path="/Footer" element={<Footer />} />
-      <Route path="/cart" element={<Cart />} />
     </Routes>
   );
 }
