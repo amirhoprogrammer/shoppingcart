@@ -1,15 +1,25 @@
+import { useState } from "react";
 import "./Header.css";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeFromCart, updateQuantity } from "../redux/cartSlice";
+import { Link } from "react-router-dom";
 function Header() {
   const cartItems = useSelector((state) => state.cart.items);
+  const total = useSelector((state) => state.cart.total);
   const itemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const toggleCart = () => {
+    setIsCartOpen(!isCartOpen);
+    document.body.classList.toggle("cart-open");
+  };
   return (
     <div
-      className="flex justify-between width=device-width, initial-scale=1.0 text-amber-50"
+      className="flex justify-between items-center w-full text-amber-50"
       style={{ backgroundColor: "rgb(148, 29, 2)" }}
     >
       <h3 className="p-4">Redux Shopping Cart</h3>
-      <button className="p-4 relative">
+      <button className="p-4 relative" onClick={toggleCart}>
         <svg
           aria-hidden="true"
           focusable="false"
@@ -33,7 +43,63 @@ function Header() {
           </span>
         )}
       </button>
+      <div
+        className={`fixed top-0 right-0 h-full w-80 bg-white text-black shadow-lg transform transition-transform duration-300 ease-in-out ${
+          isCartOpen ? "translate-x-0" : "translate-x-full"
+        } z-20`}
+      >
+        <div className="p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">سبد خرید</h2>
+            <button onClick={toggleCart} className="text-2xl">
+              &times;
+            </button>
+          </div>
+          {cartItems.length === 0 ? (
+            <p className="text-center">سبد خرید خالی است</p>
+          ) : (
+            <div>
+              <ul className="divide-y divide-gray-200">
+                {cartItems.map((item) => (
+                  <li key={item.id} className="py-2 flex justify-between items-center">
+                    <div className="flex items-center">
+                      <img src={item.src} alt={item.name} className="w-12 h-12 mr-2" />
+                      <div>
+                        <h3 className="text-sm">{item.name}</h3>
+                        <p className="text-xs">{item.cost} تومان</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center">
+                      <input
+                        type="number"
+                        min="1"
+                        value={item.quantity}
+                        onChange={(e) =>
+                          dispatch(
+                            updateQuantity({ id: item.id, quantity: parseInt(e.target.value) })
+                          )
+                        }
+                        className="w-16 p-1 border rounded"
+                      />
+                      <button
+                        onClick={() => dispatch(removeFromCart(item.id))}
+                        className="ml-4 text-red-500"
+                      >
+                        حذف
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-4 text-right">
+                <h3 className="text-lg font-bold">قیمت نهایی: {total} تومان</h3>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
 export default Header;
+//width=device-width, initial-scale=1.0
