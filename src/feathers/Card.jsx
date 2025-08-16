@@ -13,7 +13,10 @@ function Card(props) {
       <button
         className="rounded-2xl py-2"
         style={{ backgroundColor: "rgb(148, 29, 2)" }}
-        onClick={() => dispatch(useDispatch(addToCart))}
+        onClick={() => {
+          console.log("Item being dispatched:", item);
+          dispatch(addToCart(item));
+        }}
       >
         Add to cart
       </button>

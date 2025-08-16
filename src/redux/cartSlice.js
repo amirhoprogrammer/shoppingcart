@@ -8,6 +8,10 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
+      if (!item || !item.cost) {
+        console.error("Invalid item or missing cost:", item);
+        return; // جلوگیری از ادامه در صورت داده نامعتبر
+      }
       const existingItem = state.items.find((i) => i.id === item.id);
       if (existingItem) {
         existingItem.quantity += 1; // افزایش تعداد
